@@ -9,8 +9,8 @@
 import Foundation
 
 public struct Piece {
-    let kind: PieceKind
-    let color: PieceColor
+    public let kind: PieceKind
+    public let color: PieceColor
     let initialLocation: Location
     var location: Location
 

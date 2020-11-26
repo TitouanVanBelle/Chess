@@ -9,13 +9,14 @@
 import Foundation
 
 public struct Move {
-    let player: PieceColor
-    let fromSquare: Square
-    let toSquare: Square
+    public let player: PieceColor
+    public let fromSquare: Square
+    public let toSquare: Square
+    public let kind: MoveKind
+    public let capturedPiece: Piece?
+    public let promotion: Promotion?
+
     let directionType: DirectionType
-    let kind: MoveKind
-    let capturedPiece: Piece?
-    let promotion: Promotion?
 
     init(
         fromSquare: Square,
