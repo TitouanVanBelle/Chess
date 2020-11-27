@@ -48,7 +48,7 @@ import Chess
 //// 1. e4 e5 2. Nf3 Nf6 3. Nxe5 Nc6 4. Nxc6 dxc6 5. Nc3 Bc5 6. d3 Ng4 7. Be2 Bxf2+ 8. Kd2 Qg5#
 
 let board = ChessBoard()
-try! board.load(pgn: "1. e4 e5 2. f4 exf4 3. Nf3 Nc6 4. Bc4 d6")
+try! board.load(pgn: "1. e4 e5 2. f4 exf4 3. Nf3 d6 4. Bc4 Bg4 5. d4 Nc6 6. Qd3 Nf6 7. Bxf4 Be7")
 
 board.loadAllMoves()
 

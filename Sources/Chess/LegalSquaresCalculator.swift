@@ -70,11 +70,21 @@ fileprivate extension LegalSquaresCalculator {
                     break
                 }
 
-                if fromSquare.location.notation == "e1" && toSquare.location.notation == "g1" {
+                if fromSquare.location.notation == "e1" && toSquare.location.notation == "c1" {
                     _ = 1
                 }
 
                 if let move = board.move(from: fromSquare, to: toSquare), move.isAllowed {
+                    if case .castle(let side) = move.kind, side == .queen {
+                        if move.player == .white, board.square(at: Location(file: .b, rank: .one)).hasPiece {
+                            break
+                        }
+
+                        if move.player == .black, board.square(at: Location(file: .b, rank: .eight)).hasPiece {
+                            break
+                        }
+                    }
+
                     toSquares.insert(toSquare)
                     location = currentLocation.afterApplying(vector: vector)
                 } else {
