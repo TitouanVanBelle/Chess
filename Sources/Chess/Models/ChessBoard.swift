@@ -334,7 +334,6 @@ fileprivate extension ChessBoard {
         }
 
         currentMoveIndex += 1
-
         currentPlayer = currentPlayer.next
     }
 
@@ -361,6 +360,7 @@ fileprivate extension ChessBoard {
         }
 
         currentMoveIndex -= 1
+        currentPlayer = currentPlayer.next
     }
 
     func moveKind(from fromSquare: Square, to toSquare: Square) -> MoveKind? {
