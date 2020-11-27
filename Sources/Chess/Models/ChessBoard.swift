@@ -377,11 +377,7 @@ fileprivate extension ChessBoard {
                 !fromPiece.hasMoved,
                 toPiece.kind == .rook,
                 !toPiece.hasMoved {
-                if toSquare.file == .h {
-                    return .castle(.king)
-                } else {
-                    return .castle(.queen)
-                }
+                return .castle(toSquare.file == .h ? .king : .queen)
             } else {
                 return nil
             }
@@ -396,6 +392,11 @@ fileprivate extension ChessBoard {
                let lastMove = moves.last,
                lastMove.toSquare.location == Location(file: toSquare.file, rank: fromSquare.rank) {
                 return .enPassant
+            } else if fromPiece.kind == .king,
+                      !fromPiece.hasMoved,
+                      (toSquare == squares[kingCastledIndex(for: fromPiece.color, castleSide: .queen)]
+                        || toSquare == squares[kingCastledIndex(for: fromPiece.color, castleSide: .king)]) {
+                return .castle(toSquare.file == .g ? .king : .queen)
             } else {
                 return .move
             }

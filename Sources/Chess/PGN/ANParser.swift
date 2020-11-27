@@ -12,6 +12,15 @@ protocol ANParserProtocol {
 }
 
 final class ANParser: ANParserProtocol {
+
+    // MARK: Private Properties
+
+    private let legalSquareCalculator: LegalSquaresCalculatorProtocol
+
+    init(legalSquareCalculator: LegalSquaresCalculatorProtocol = LegalSquaresCalculator()) {
+        self.legalSquareCalculator = legalSquareCalculator
+    }
+
     func move(for notation: AlgebraicNotation, in board: ChessBoardProtocol) throws -> Move {
 
         let strippedNotation = notation
@@ -66,7 +75,7 @@ fileprivate extension ANParser {
                     return square.file == fromFile
                 }
 
-                return board.legalSquares(forPieceAt: square)
+                return legalSquareCalculator.legalSquares(forPieceAt: square, in: board)
                     .contains { $0.location == toLocation }
             }
             .filter { fromSquare in
@@ -114,7 +123,7 @@ fileprivate extension ANParser {
                     return square.file == fromFile
                 }
 
-                return board.legalSquares(forPieceAt: square)
+                return legalSquareCalculator.legalSquares(forPieceAt: square, in: board)
                     .contains { $0.location == toLocation }
             }
             .filter { fromSquare in

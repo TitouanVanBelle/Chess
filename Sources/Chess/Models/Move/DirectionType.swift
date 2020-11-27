@@ -60,6 +60,6 @@ public enum DirectionType {
         }
 
         return vectorValues
-            .map { Vector(deltaFile: $0, deltaRank: $1) }
+            .map(Vector.init)
     }
 }

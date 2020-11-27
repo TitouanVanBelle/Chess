@@ -29,11 +29,16 @@ final class PGNBuilder: PGNBuilderProtocol {
     // MARK: Private Properties
 
     private let checkDetector: CheckDetectorProtocol
+    private let legalSquareCalculator: LegalSquaresCalculatorProtocol
 
     // MARK: Init
 
-    init(checkDetector: CheckDetectorProtocol = CheckDetector()) {
+    init(
+        checkDetector: CheckDetectorProtocol = CheckDetector(),
+        legalSquareCalculator: LegalSquaresCalculatorProtocol = LegalSquaresCalculator()
+    ) {
         self.checkDetector = checkDetector
+        self.legalSquareCalculator = legalSquareCalculator
     }
 
     // MARK: PGNBuilderProtocol
@@ -108,7 +113,7 @@ fileprivate extension PGNBuilder {
                 return "\(piece.notation)\(toSquare.location.notation)"
             }
 
-            let legalSquares = board.legalSquares(forPieceAt: squareForOtherPiece)
+            let legalSquares = legalSquareCalculator.legalSquares(forPieceAt: squareForOtherPiece, in: board)
 
             if legalSquares.filter({ $0.location.index == toSquare.location.index }).isEmpty {
                 return "\(piece.notation)\(toSquare.location.notation)"
@@ -137,7 +142,7 @@ fileprivate extension PGNBuilder {
                 return "\(piece.notation)x\(toSquare.location.notation)"
             }
 
-            let legalSquares = board.legalSquares(forPieceAt: squareForOtherPiece)
+            let legalSquares = legalSquareCalculator.legalSquares(forPieceAt: squareForOtherPiece, in: board)
 
             if legalSquares.filter({ $0.location == toSquare.location }).isEmpty {
                 return "\(piece.notation)x\(toSquare.location.notation)"

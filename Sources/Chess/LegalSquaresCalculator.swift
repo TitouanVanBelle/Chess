@@ -68,13 +68,17 @@ fileprivate extension LegalSquaresCalculator {
 
                 if toSquare.piece != nil {
                     break
+                }
+
+                if fromSquare.location.notation == "e1" && toSquare.location.notation == "g1" {
+                    _ = 1
+                }
+
+                if let move = board.move(from: fromSquare, to: toSquare), move.isAllowed {
+                    toSquares.insert(toSquare)
+                    location = currentLocation.afterApplying(vector: vector)
                 } else {
-                    if let move = board.move(from: fromSquare, to: toSquare), move.isAllowed {
-                        toSquares.insert(toSquare)
-                        location = currentLocation.afterApplying(vector: vector)
-                    } else {
-                        break
-                    }
+                    break
                 }
             }
         }
