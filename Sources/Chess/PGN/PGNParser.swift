@@ -58,7 +58,8 @@ final class PGNParser: PGNParserProtocol {
 
                 let boardAfterMove = board.after(move: move)
                 guard !boardAfterMove.isKingInCheck(for: boardAfterMove.currentPlayer.next) else {
-                    throw ChessBoardError.invalidMove(.kingInCheck)
+                    let square = board.squares(for: PieceKind.king, color: move.player).first!
+                    throw ChessBoardError.invalidMove(.kingInCheck(square))
                 }
 
                 return (moves + [move], boardAfterMove)

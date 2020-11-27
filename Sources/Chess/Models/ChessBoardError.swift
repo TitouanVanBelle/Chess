@@ -7,11 +7,27 @@
 
 import Foundation
 
-public enum InvalidMoveReason: String {
-    case unknown = "Unknown reason"
-    case moveNotAllowed = "Move is not allowed for this piece"
-    case kingInCheck = "King is in check"
-    case collisionDetected = "Collision detected"
+public enum InvalidMoveReason {
+    case unknown
+    case moveNotAllowed
+    case kingInCheck(Square)
+    case collisionDetected
+
+    var localizedReason: String {
+        switch self {
+        case .unknown:
+            return "Unknown reason"
+
+        case .moveNotAllowed:
+            return "Move is not allowed for this piece"
+
+        case .kingInCheck(let square):
+            return "King is in check in \(square.location.notation)"
+
+        case .collisionDetected:
+            return "Collision detected"
+        }
+    }
 }
 
 public enum ChessBoardError: Error {
@@ -29,7 +45,7 @@ extension ChessBoardError: LocalizedError {
             return "Loaded PGN is invalid. PGN: \(pgn). Invalid move: \(move)"
 
         case .invalidMove(let reason):
-            return "Move is invalid. Reason: \(reason.rawValue)"
+            return "Move is invalid. Reason: \(reason.localizedReason)"
 
         case .wrongPlayer(let actualPlayer):
             return "Wrong player. \(actualPlayer.rawValue) should be playing"

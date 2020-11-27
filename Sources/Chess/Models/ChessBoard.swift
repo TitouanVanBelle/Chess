@@ -301,7 +301,8 @@ fileprivate extension ChessBoard {
         }
 
         guard !willKingBeInCheck(after: move) else {
-            throw ChessBoardError.invalidMove(.kingInCheck)
+            let square = squares(for: PieceKind.king, color: move.player).first!
+            throw ChessBoardError.invalidMove(.kingInCheck(square))
         }
 
         load(move: move)
