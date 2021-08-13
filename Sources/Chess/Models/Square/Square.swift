@@ -46,3 +46,9 @@ extension Square: ANNotable {
         location.notation
     }
 }
+
+extension Square: CustomStringConvertible {
+    public var description: String {
+        location.notation
+    }
+}
