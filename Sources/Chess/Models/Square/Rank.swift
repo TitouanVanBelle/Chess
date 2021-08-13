@@ -45,9 +45,9 @@ public enum Rank: Int, ANNotable {
         }
     }
 
-    var previousRankForWhite: Rank {
+    var previousRankForWhite: Rank? {
         switch self {
-        case .one: fatalError("Error")
+        case .one: return nil
         case .two: return .one
         case .three: return .two
         case .four: return .three
@@ -58,7 +58,7 @@ public enum Rank: Int, ANNotable {
         }
     }
 
-    var previousRankForBlack: Rank {
+    var previousRankForBlack: Rank? {
         switch self {
         case .one: return .two
         case .two: return .three
@@ -67,18 +67,18 @@ public enum Rank: Int, ANNotable {
         case .five: return .six
         case .six: return .seven
         case .seven: return .eight
-        case .eight: fatalError("Error")
+        case .eight: return nil
         }
     }
 
-    func previous(for color: PieceColor) -> Rank {
+    func previous(for color: PieceColor) -> Rank? {
         switch color {
         case .white: return previousRankForWhite
         case .black: return previousRankForBlack
         }
     }
 
-    func next(for color: PieceColor) -> Rank {
+    func next(for color: PieceColor) -> Rank? {
         switch color {
         case .white: return previousRankForBlack
         case .black: return previousRankForWhite

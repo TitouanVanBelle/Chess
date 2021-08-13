@@ -32,8 +32,10 @@ final class EnPassantDetector: EnPassantDetectorProtocol {
         }
 
         let file = toSquare.file
-        let fromRank = toSquare.rank.previous(for: fromPiece.color.next)
-        let toRank = toSquare.rank.next(for: fromPiece.color.next)
+        guard let fromRank = toSquare.rank.previous(for: fromPiece.color.next),
+              let toRank = toSquare.rank.next(for: fromPiece.color.next) else {
+            return false
+        }
 
         let fromLocation = Location(file: file, rank: fromRank)
         let toLocation = Location(file: file, rank: toRank)

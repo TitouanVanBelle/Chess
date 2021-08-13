@@ -196,7 +196,10 @@ fileprivate extension ANParser {
         }
 
         let color = board.currentPlayer
-        let rank = toLocation.rank.previous(for: color)
+        guard let rank = toLocation.rank.previous(for: color) else {
+            throw ANParsingError.invalidAlgebraicNotation(notation)
+        }
+        
         let fromLocation = Location(file: file, rank: rank)
         let promotion: Promotion?
 
