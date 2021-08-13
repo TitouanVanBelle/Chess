@@ -20,7 +20,7 @@ final class LegalSquaresCalculator: LegalSquaresCalculatorProtocol {
 
     func capturableSquares(forPieceAt fromSquare: Square, in board: ChessBoardProtocol) -> Set<Square> {
         guard let piece = fromSquare.piece else {
-            fatalError("Asking for potential captures for a square that has not piece on it.")
+            return []
         }
 
         var squares = Set<Square>()
