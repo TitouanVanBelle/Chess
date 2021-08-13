@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol CollisionDetectorProtocol {
     func collisions(for move: Move, in board: ChessBoardProtocol) -> Bool
 }

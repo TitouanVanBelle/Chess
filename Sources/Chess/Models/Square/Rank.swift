@@ -78,6 +78,13 @@ public enum Rank: Int, ANNotable {
         }
     }
 
+    func next(for color: PieceColor) -> Rank {
+        switch color {
+        case .white: return previousRankForBlack
+        case .black: return previousRankForWhite
+        }
+    }
+
     func isLastRank(for color: PieceColor) -> Bool {
         (self == .eight && color == .white)
             || (self == .one && color == .black)

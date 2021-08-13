@@ -13,6 +13,13 @@ protocol LegalSquaresCalculatorProtocol {
 }
 
 final class LegalSquaresCalculator: LegalSquaresCalculatorProtocol {
+
+    private let enPassantDetector: EnPassantDetectorProtocol
+
+    init(enPassantDetector: EnPassantDetectorProtocol = EnPassantDetector()) {
+        self.enPassantDetector = enPassantDetector
+    }
+
     func legalSquares(forPieceAt fromSquare: Square, in board: ChessBoardProtocol) -> Set<Square> {
         capturableSquares(forPieceAt: fromSquare, in: board)
             .union(legalMoveSquares(forPieceAt: fromSquare, in: board))
@@ -38,12 +45,13 @@ final class LegalSquaresCalculator: LegalSquaresCalculatorProtocol {
 
                     location = currentLocation.afterApplying(vector: vector)
                     break
-                } else {
-                    if !piece.hasInfiniteAttackingRange {
-                        break
-                    }
-
+                } else if piece.hasInfiniteAttackingRange {
                     location = currentLocation.afterApplying(vector: vector)
+                } else if enPassantDetector.isEnPassantPossible(from: fromSquare, to: attackedSquare, in: board) {
+                    squares.insert(attackedSquare)
+                    break
+                } else {
+                    break
                 }
             }
         }
@@ -55,7 +63,7 @@ final class LegalSquaresCalculator: LegalSquaresCalculatorProtocol {
 fileprivate extension LegalSquaresCalculator {
     func legalMoveSquares(forPieceAt fromSquare: Square, in board: ChessBoardProtocol) -> Set<Square> {
         guard let piece = fromSquare.piece else {
-            fatalError("Asking for potential moves for a square that has not piece on it.")
+            return []
         }
 
         var toSquares = Set<Square>()

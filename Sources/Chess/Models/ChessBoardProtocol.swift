@@ -9,6 +9,7 @@
 import Foundation
 
 protocol ChessBoardProtocol {
+    var moves: [Move] { get set }
     var squares: [Square] { get set }
 
     var currentPlayer: PieceColor { get set }
