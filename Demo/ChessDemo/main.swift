@@ -9,16 +9,11 @@ import Chess
 
 let board = ChessBoard()
 
-let pgn = "1. e4 h6 2. e5 d5"
+let pgn = "1. e3 Nf6 2. Ba6 Nh5 3. Nf3 Nf4 4. Bxb7 Nh3 5. Bxa8 Nf4 6. Bb7 Nh5 7. Bxc8 Ng3"
 try! board.load(pgn: pgn)
 board.loadAllMoves()
 
 print(board.gui)
 
-let e5 = board.square(withNotation: "e5")!
-print(board.capturableSquares(forPieceAt: e5))
-print(board.legalSquares(forPieceAt: e5))
-
-try! board.play(move: "exd6")
-
-print(board.gui)
+let e1 = board.square(withNotation: "e1")!
+print(board.legalSquares(forPieceAt: e1))

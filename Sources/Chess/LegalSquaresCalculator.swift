@@ -16,7 +16,9 @@ final class LegalSquaresCalculator: LegalSquaresCalculatorProtocol {
 
     private let enPassantDetector: EnPassantDetectorProtocol
 
-    init(enPassantDetector: EnPassantDetectorProtocol = EnPassantDetector()) {
+    init(
+        enPassantDetector: EnPassantDetectorProtocol = EnPassantDetector()
+    ) {
         self.enPassantDetector = enPassantDetector
     }
 
@@ -76,21 +78,38 @@ fileprivate extension LegalSquaresCalculator {
 
                 if toSquare.piece != nil {
                     break
-                }
+                } else if let move = board.move(from: fromSquare, to: toSquare), move.isAllowed {
 
-                if fromSquare.location.notation == "e1" && toSquare.location.notation == "c1" {
-                    _ = 1
-                }
-
-                if let move = board.move(from: fromSquare, to: toSquare), move.isAllowed {
-                    if case .castle(let side) = move.kind, side == .queen {
-                        if move.player == .white, board.square(at: Location(file: .b, rank: .one)).hasPiece {
-                            break
+                    if case .castle(let side) = move.kind {
+                        switch (side, move.player) {
+                        case (.queen, .white):
+                            if board.square(at: Location(file: .b, rank: .one)).hasPiece ||
+                                board.square(at: Location(file: .c, rank: .one)).hasPiece ||
+                                board.square(at: Location(file: .d, rank: .one)).hasPiece {
+                                break
+                            }
+                        case (.king, .white):
+                            if board.square(at: Location(file: .f, rank: .one)).hasPiece ||
+                                board.square(at: Location(file: .g, rank: .one)).hasPiece {
+                                break
+                            }
+                        case (.queen, .black):
+                            if board.square(at: Location(file: .b, rank: .eight)).hasPiece ||
+                                board.square(at: Location(file: .c, rank: .eight)).hasPiece ||
+                                board.square(at: Location(file: .d, rank: .eight)).hasPiece {
+                                break
+                            }
+                        case (.king, .black):
+                            if board.square(at: Location(file: .f, rank: .eight)).hasPiece ||
+                                board.square(at: Location(file: .g, rank: .eight)).hasPiece {
+                                break
+                            }
                         }
+                    }
 
-                        if move.player == .black, board.square(at: Location(file: .b, rank: .eight)).hasPiece {
-                            break
-                        }
+                    let checkDetector = CheckDetector(legalSquareCalculator: self)
+                    if checkDetector.willKingBeInCheck(after: move, in: board, color: move.player) {
+                        break
                     }
 
                     toSquares.insert(toSquare)
