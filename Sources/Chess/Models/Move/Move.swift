@@ -13,7 +13,7 @@ public struct Move {
     public let fromSquare: Square
     public let toSquare: Square
     public let kind: MoveKind
-    public let capturedPiece: Piece?
+    public let capturedSquare: Square?
     public let promotion: Promotion?
 
     let directionType: DirectionType
@@ -23,7 +23,7 @@ public struct Move {
         toSquare: Square,
         kind: MoveKind,
         directionType: DirectionType,
-        capturedPiece: Piece? = nil,
+        capturedSquare: Square? = nil,
         promotion: Promotion? = nil
     ) {
         self.player = fromSquare.piece!.color
@@ -31,7 +31,7 @@ public struct Move {
         self.toSquare = toSquare
         self.kind = kind
         self.directionType = directionType
-        self.capturedPiece = capturedPiece
+        self.capturedSquare = capturedSquare
         self.promotion = promotion
     }
 }

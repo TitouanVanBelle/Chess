@@ -265,12 +265,12 @@ extension ChessBoard: ChessBoardProtocol {
             return nil
         }
 
-        var capturedPiece: Piece? = nil
+        var capturedSquare: Square? = nil
 
         if kind == .capture {
-            capturedPiece = toSquare.piece
+            capturedSquare = toSquare
         } else if kind == .enPassant {
-            capturedPiece = square(at: Location(file: toSquare.file, rank: fromSquare.rank)).piece
+            capturedSquare = square(at: Location(file: toSquare.file, rank: fromSquare.rank))
         }
 
         return Move(
@@ -278,7 +278,7 @@ extension ChessBoard: ChessBoardProtocol {
             toSquare: toSquare,
             kind: kind,
             directionType: directionType,
-            capturedPiece: capturedPiece,
+            capturedSquare: capturedSquare,
             promotion: promotion 
         )
     }
@@ -348,7 +348,7 @@ fileprivate extension ChessBoard {
 
         case .capture:
             movePieceBack(from: fromIndex, to: toIndex)
-            addPiece(move.capturedPiece!, at: fromIndex)
+            addPiece(move.capturedSquare!.piece!, at: fromIndex)
 
         case .castle(let castleSide):
             uncastle(move.piece.color, castleSide: castleSide)
@@ -356,7 +356,7 @@ fileprivate extension ChessBoard {
         case .enPassant:
             movePieceBack(from: fromIndex, to: toIndex)
             let location = Location(file: move.toSquare.file, rank: move.fromSquare.rank)
-            addPiece(move.capturedPiece!, at: location.index)
+            addPiece(move.capturedSquare!.piece!, at: location.index)
             return
         }
 
